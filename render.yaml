@@ -4,7 +4,7 @@ services:
     runtime: docker
     dockerfilePath: apps/server/Dockerfile
     dockerContext: .
-    plan: standard
+    plan: free
     envVars:
       - key: NODE_ENV
         value: production
@@ -15,10 +15,7 @@ services:
       - key: MONGO_URI
         sync: false
       - key: REDIS_URL
-        fromService:
-          type: redis
-          name: yumi-redis
-          property: connectionString
+        sync: false
       - key: JWT_ACCESS_SECRET
         generateValue: true
       - key: JWT_REFRESH_SECRET
@@ -38,8 +35,3 @@ services:
     envVars:
       - key: VITE_API_URL
         sync: false
-
-  - type: redis
-    name: yumi-redis
-    ipAllowList: []
-    plan: free

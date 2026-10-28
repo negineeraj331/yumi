@@ -1,0 +1,58 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: yumi-mongo-prod
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-prod-data:/data/db
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+
+  redis:
+    image: redis:7-alpine
+    container_name: yumi-redis-prod
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-prod-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    container_name: yumi-server-prod
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - CLIENT_ORIGIN=http://localhost:80
+      - MONGO_URI=mongodb://mongo:27017/yumi
+      - REDIS_URL=redis://redis:6379
+      - JWT_ACCESS_SECRET=prod-access-secret-change-me
+      - JWT_REFRESH_SECRET=prod-refresh-secret-change-me
+      - CALL_MODE=mesh
+    depends_on:
+      - mongo
+      - redis
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:4000
+    container_name: yumi-web-prod
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+volumes:
+  mongo-prod-data:
+  redis-prod-data:

@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: yumi-server
+    runtime: docker
+    dockerfilePath: apps/server/Dockerfile
+    dockerContext: .
+    plan: standard
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: yumi-redis
+          property: connectionString
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CALL_MODE
+        value: mesh
+
+  - type: web
+    name: yumi-web
+    runtime: static
+    buildCommand: pnpm --filter @yumi/web build
+    staticPublishPath: apps/web/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+
+  - type: redis
+    name: yumi-redis
+    ipAllowList: []
+    plan: free

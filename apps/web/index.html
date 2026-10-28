@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yumi — One room where the team thinks together</title>
+    <meta name="description" content="Yumi is a single living surface for distributed teams — draw, code, talk and message without ever leaving the room." />
+    <meta name="theme-color" content="#F4F1EA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#17150F" media="(prefers-color-scheme: dark)" />
+
+    <!-- Terracotta "Y" mark, inlined so it works offline -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1712'/%3E%3Cpath d='M16 18l16 18 16-18' stroke='%23E0784A' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 36v12' stroke='%23E0784A' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+
+    <!-- Display/UI grotesque + code mono (design.md §Typography). Falls back to
+         system sans if the network is unavailable. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

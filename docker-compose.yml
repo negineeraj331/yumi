@@ -1,0 +1,58 @@
+services:
+  # Single-node replica set, not a standalone.
+  #
+  # The only reason is the oplog: it exists only on a replica set, and without it
+  # recovery can only go back to whole snapshots. Point-in-time recovery replays
+  # the oplog on top of a snapshot, so "restore to 14:05, just before the bad
+  # migration" is possible instead of losing everything since the last backup.
+  # See dr.md §5.
+  #
+  # A single member is a real replica set for this purpose, and needs no extra
+  # containers — it just does not give high availability, which a dev machine was
+  # never providing anyway. Existing data files are unaffected by the switch.
+  mongo:
+    image: mongo:7
+    container_name: yumi-mongo
+    ports:
+      - "27017:27017"
+    # A named volume rather than a bind mount into ./data.
+    #
+    # MongoDB's own guidance is that a host-directory bind mount for /data/db is
+    # not supported on macOS or Windows, where the container sees a translation
+    # layer instead of a real file system. A named volume lives inside the Linux
+    # VM and does not have that problem. The previous `./data/mongo` directory is
+    # left on disk untouched; nothing reads it.
+    volumes:
+      - mongo-data:/data/db
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    # Initiates the set on first boot and is a genuine health probe thereafter.
+    # `rs.initiate` is only ever called when the set is not yet configured, so
+    # restarting the container does not disturb an existing one.
+    healthcheck:
+      test: >
+        mongosh --quiet --eval "
+          try { rs.status().ok }
+          catch (e) {
+            rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}]}).ok
+          }"
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: yumi-redis
+    ports:
+      - "6379:6379"
+    # Named for the same reason as mongo. Nothing here is irreplaceable
+    # (dr.md §2), but there is no reason to use the unsupported arrangement.
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
+  redis-data:

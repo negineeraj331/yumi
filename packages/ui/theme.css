@@ -1,0 +1,128 @@
+/* Yumi — Design Tokens (theme.css)
+ * Source of truth: design.md v1.0
+ * Direction: bold creative-studio · warm cream base · terracotta accent · grotesque type
+ * Consume these variables everywhere; do NOT hardcode colors/spacing (see rules.md §8.6).
+ */
+
+:root {
+  /* ---- Neutrals & surfaces (LIGHT — warm cream, default) ---- */
+  --bg: #F4F1EA;
+  --bg-raised: #FBFAF7;
+  --bg-sunken: #ECE7DC;
+  --bg-inverse: #1A1712;
+  --ink: #1A1A1A;
+  --ink-secondary: #55514A;
+  --ink-muted: #8A857B;
+  --border: #DED8CB;
+  --border-strong: #C7BFAE;
+
+  /* ---- Brand accent (terracotta / rust) ---- */
+  --accent: #C4622D;         /* large/bold type, icons, rules only (AA-large) */
+  --accent-strong: #B5482E;  /* buttons/chips w/ small text (AA), hover-press */
+  --accent-soft: #F0DFD2;    /* tinted bg, selection wash, badges */
+  --accent-contrast: #FFFFFF;
+
+  /* ---- Semantic ---- */
+  --success: #2E8B4F;
+  --warning: #D9902B;
+  --error: #C4362E;
+  --info: #2B6CB0;
+
+  /* ---- Collaborator identity palette (8, brand-band excluded) ---- */
+  --collab-1: #C79A1E; --collab-1-label: #1A1712; /* Gold */
+  --collab-2: #3C8C43; --collab-2-label: #FFFFFF; /* Green */
+  --collab-3: #0E8F82; --collab-3-label: #FFFFFF; /* Teal */
+  --collab-4: #2E86C1; --collab-4-label: #FFFFFF; /* Sky */
+  --collab-5: #2F5FE0; --collab-5-label: #FFFFFF; /* Cobalt */
+  --collab-6: #7A4FE0; --collab-6-label: #FFFFFF; /* Violet */
+  --collab-7: #9B3FA8; --collab-7-label: #FFFFFF; /* Berry */
+  --collab-8: #C6317E; --collab-8-label: #FFFFFF; /* Magenta */
+
+  /* ---- Typography ---- */
+  --font-display: "Space Grotesk", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-ui: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+
+  /* type scale: size / line-height */
+  --fs-display-xl: 4.5rem;   --lh-display-xl: 1.0;   /* 72 */
+  --fs-display-l: 3.5rem;    --lh-display-l: 1.05;   /* 56 */
+  --fs-h1: 2.5rem;           --lh-h1: 1.1;           /* 40 */
+  --fs-h2: 1.875rem;         --lh-h2: 1.15;          /* 30 */
+  --fs-h3: 1.375rem;         --lh-h3: 1.25;          /* 22 */
+  --fs-body-lg: 1.125rem;    --lh-body-lg: 1.5;      /* 18 */
+  --fs-body: 0.9375rem;      --lh-body: 1.55;        /* 15 (UI default) */
+  --fs-small: 0.8125rem;     --lh-small: 1.45;       /* 13 */
+  --fs-meta: 0.6875rem;      --lh-meta: 1.4;         /* 11, uppercase, tracked */
+  --fs-code: 0.84375rem;     --lh-code: 1.6;         /* 13.5 */
+
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-black: 800;
+  --tracking-meta: 0.08em;
+
+  /* ---- Spacing (4px base) ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px; --sp-5: 24px;
+  --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px; --sp-10: 128px;
+
+  /* ---- Radius ---- */
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 20px; --r-pill: 999px;
+
+  /* ---- Elevation (warm-tinted) ---- */
+  --e1: 0 1px 2px rgba(26,22,15,.06);
+  --e2: 0 4px 12px rgba(26,22,15,.08);
+  --e3: 0 12px 32px rgba(26,22,15,.14);
+
+  /* ---- Motion ---- */
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 320ms;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --ease-out: cubic-bezier(0,0,.2,1);
+}
+
+:root[data-theme="dark"] {
+  /* ---- Neutrals & surfaces (DARK — warm charcoal) ---- */
+  --bg: #17150F;
+  --bg-raised: #221F18;
+  --bg-sunken: #100E0A;
+  --bg-inverse: #F4F1EA;
+  --ink: #F4F1EA;
+  --ink-secondary: #B8B2A5;
+  --ink-muted: #857F72;
+  --border: #322E25;
+  --border-strong: #4A4437;
+
+  /* ---- Brand accent (brighter for dark) ---- */
+  --accent: #E0784A;
+  --accent-strong: #EC8A5C;
+  --accent-soft: #3A2A1E;
+  --accent-contrast: #17150F;
+
+  /* ---- Semantic ---- */
+  --success: #4FBE77;
+  --warning: #E8A94F;
+  --error: #E85C52;
+  --info: #5A9BE0;
+
+  /* Collaborator palette carries over; adjust per-hue lightness here only if a
+     color fails the §9 validator on the dark background. */
+
+  /* Elevation: rely more on border + raised-surface separation on dark */
+  --e1: 0 1px 2px rgba(0,0,0,.30);
+  --e2: 0 4px 12px rgba(0,0,0,.36);
+  --e3: 0 12px 32px rgba(0,0,0,.44);
+}
+
+/* System-preference default when no explicit theme is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --bg: #17150F; --bg-raised: #221F18; --bg-sunken: #100E0A; --bg-inverse: #F4F1EA;
+    --ink: #F4F1EA; --ink-secondary: #B8B2A5; --ink-muted: #857F72;
+    --border: #322E25; --border-strong: #4A4437;
+    --accent: #E0784A; --accent-strong: #EC8A5C; --accent-soft: #3A2A1E; --accent-contrast: #17150F;
+    --success: #4FBE77; --warning: #E8A94F; --error: #E85C52; --info: #5A9BE0;
+    --e1: 0 1px 2px rgba(0,0,0,.30);
+    --e2: 0 4px 12px rgba(0,0,0,.36);
+    --e3: 0 12px 32px rgba(0,0,0,.44);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; }
+}

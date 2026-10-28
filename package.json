@@ -1,0 +1,19 @@
+{
+  "name": "yumi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Yumi — unified collaborative workspace (draw, code, talk, message on one surface)",
+  "packageManager": "pnpm@11.1.2",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:server": "pnpm --filter @yumi/server dev",
+    "dev:web": "pnpm --filter @yumi/web dev",
+    "build": "pnpm -r build",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

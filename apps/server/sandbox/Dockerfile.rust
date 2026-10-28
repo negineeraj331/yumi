@@ -1,0 +1,20 @@
+# Sandbox image for Rust debugging.
+#
+# `rust:1-alpine` ships `rust-gdb` and `rust-lldb`, but both are wrapper scripts
+# that exec a debugger which is not installed — which is exactly why Rust looked
+# supportable and was not. Adding Alpine's gdb is what makes the wrapper true.
+#
+# musl-dev is already needed to link on this base; it is listed so a build on a
+# newer tag fails loudly rather than at the first `rustc` invocation in a session.
+FROM rust:1-alpine
+
+# coreutils is here for `stdbuf`: gdb runs the debuggee through it so the
+# program's own prints reach the shared terminal as they happen instead of
+# arriving in one lump when the process exits. Busybox has no stdbuf, and
+# pointing gdb's exec-wrapper at a missing binary kills the run outright
+# (verified — the program exits 127 before it starts).
+RUN apk add --no-cache gdb musl-dev coreutils
+
+WORKDIR /work
+
+RUN gdb --version > /dev/null && stdbuf --version > /dev/null

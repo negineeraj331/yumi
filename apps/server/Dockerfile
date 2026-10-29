@@ -1,4 +1,4 @@
-FROM node:20-bookworm-slim AS base
+FROM node:22-bookworm-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -35,3 +35,4 @@ ENV PORT=4000
 EXPOSE 4000
 
 CMD ["pnpm", "start"]
+

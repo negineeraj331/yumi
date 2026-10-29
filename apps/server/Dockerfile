@@ -1,15 +1,9 @@
-FROM node:22-bookworm-slim AS base
+FROM node:22-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+ENV MEDIASOUP_WORKER_BIN=/bin/true
 
-# Install build dependencies for native modules (argon2, mediasoup)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 \
-    make \
-    g++ \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+RUN corepack enable
 
 WORKDIR /app
 
@@ -35,4 +29,3 @@ ENV PORT=4000
 EXPOSE 4000
 
 CMD ["pnpm", "start"]
-
